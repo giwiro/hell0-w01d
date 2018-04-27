@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "common.h"
+#include "logger.h"
 
 void printError(char *msg) {
     fprintf(stderr, "Error: %s\n", msg);

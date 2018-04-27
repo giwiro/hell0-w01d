@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "logger.h"
 #include "common.h"
 
 int main(int argc, char *argv[]) {
@@ -38,8 +39,8 @@ int main(int argc, char *argv[]) {
                 inet_pton(AF_INET, optarg, &(socketaddr.sin_addr));
                 break;
             case '?':
-                printError("Unknown option");
-                break;
+                // printError("Unknown option");
+                return 1;
         }
     }
 
@@ -52,6 +53,8 @@ int main(int argc, char *argv[]) {
     }
     printf("IP: %s\n", ip);
     printf("Port: %d\n", port);
+    
+
     return 0;
 }
 

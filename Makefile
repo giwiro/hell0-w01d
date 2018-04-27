@@ -1,8 +1,8 @@
-CC=gcc
-DEPS=common.h
+CC = gcc
+DEPS = logger.h common.h
 
-SRV_OBJ = server.o common.o
-CLI_OBJ=client.o common.o
+SRV_OBJ = server.o logger.o
+CLI_OBJ=client.o logger.o
 
 %.o: %.c $(DEPS)
 	$(CC) $< -c -o $@

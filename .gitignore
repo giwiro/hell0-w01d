@@ -54,3 +54,6 @@ dkms.conf
 # Binaries
 server
 client
+
+# Idea
+.idea/
