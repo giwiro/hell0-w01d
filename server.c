@@ -71,12 +71,13 @@ int main(int argc, char *argv[]) {
     printMsg("TCP Server", listen_msg);
 
     struct sockaddr_in clientaddr;
+    socklen_t clientaddr_size = 0;
     // Initialize all values of struct to zero
     memset(&clientaddr, 0, sizeof(clientaddr));
 
     // Main loop
     while(1) {
-        int clientfd = accept(socketfd, (struct sockaddr *)&clientaddr, sizeof(clientaddr));
+        int clientfd = accept(socketfd, (struct sockaddr *)&clientaddr, &clientaddr_size);
         if (clientfd < 0) {
             printError("Could not create client file descriptor");
             // return 1;
@@ -89,7 +90,7 @@ int main(int argc, char *argv[]) {
 
         sprintf(client_msg, "Client connected from ip --> %s", client_ip);
         printMsg("TCP Server", client_msg);
-        while((recv_len = recv(clientfd, buffer, BUFF_SIZE)) > 0) {
+        while((recv_len = recv(clientfd, buffer, BUFF_SIZE, 0)) > 0) {
             printMsg("Client", buffer);
         }
 
