@@ -3,5 +3,6 @@
 
 #define BUFF_SIZE 1024
 #define DEFAULT_IP_ADDR "127.0.0.1"
+#define MAX_CONN 10
 
 #endif
