@@ -8,31 +8,28 @@
 #include <stdlib.h>
 #include "logger.h"
 #include "common.h"
-#include "server.h"
 
 int main(int argc, char *argv[]) {
     struct sockaddr_in socketaddr;
     char opt;
     int socketfd;
-    char *ip = NULL;
+    char *ip = DEFAULT_IP_ADDR;
     short port = 0;
 
     // Create socket file descriptor
     // see man: http://man7.org/linux/man-pages/man2/socket.2.html
     socketfd = socket(AF_INET, SOCK_STREAM, 0);
-    // Initialize all values of struct to zero
-    memset(&socketaddr, 0, sizeof(socketaddr));
-    // Default ip (127.0.0.1)
-    inet_pton(AF_INET, DEFAULT_IP_ADDR, &(socketaddr.sin_addr));
-    // Set up port
-    socketaddr.sin_port = htons(port);
-    // Set up socketaddr with defaults
-    socketaddr.sin_family = AF_INET;
     // Check if could create filedescriptor
     if (socketfd < 0) {
         printError("Could not create server file descriptor");
         return 1;
     }
+    // Initialize all values of struct to zero
+    memset(&socketaddr, 0, sizeof(socketaddr));
+    // Default ip (127.0.0.1)
+    inet_pton(AF_INET, DEFAULT_IP_ADDR, &(socketaddr.sin_addr));
+    // Set up socketaddr with defaults
+    socketaddr.sin_family = AF_INET;
 
     while ((opt = getopt(argc, argv, "p:i:")) != -1) {
         switch(opt) {
@@ -56,6 +53,9 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    // Set up port
+    socketaddr.sin_port = htons(port);
+
     if (bind(socketfd, (struct sockaddr *) &socketaddr, sizeof(socketaddr)) < 0) {
         printError("Could not bind socket");
         return 1;
@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
     struct sockaddr_in clientaddr;
     socklen_t clientaddr_size = 0;
     // Initialize all values of struct to zero
-    memset(&clientaddr, 0, sizeof(clientaddr));
+    // memset(&clientaddr, 0, sizeof(clientaddr));
 
     // Main loop
     while(1) {
